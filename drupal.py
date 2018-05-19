@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys,argparse,os,requests,re
+import sys,argparse,os,requests,re,random
 
 class bcolors:
     HEADER = '\033[95m'
@@ -14,14 +14,17 @@ class bcolors:
 
 ############################### GET VERSION FUNCTION
 def get_version(url):
-	p_full = "138.201.223.250:31288"
-	http_proxy = p_full
+
+	
+	p_full = ["159.65.238.188:3128","206.189.184.151:80"]
+	http_proxy = random.choice(p_full)
 
 
 	proxyDict = {"http":http_proxy}
 
 	hostsearch = url
-	response = requests.get(hostsearch, headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13'},proxies=proxyDict)
+
+	response = requests.get(hostsearch,timeout=10,headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13'},proxies=proxyDict)
 
 	contents = response.text
 	splitted = contents.split()
@@ -59,5 +62,6 @@ for line in content:
 
 for host in result:
 	print ("http://"+ host + "/CHANGELOG.txt")
+
 	print get_version("http://"+ host + "/CHANGELOG.txt")
 
