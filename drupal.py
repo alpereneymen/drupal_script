@@ -63,5 +63,5 @@ for line in content:
 for host in result:
 	print ("http://"+ host + "/CHANGELOG.txt")
 
-	print get_version("http://"+ host + "/CHANGELOG.txt")
+	get_version("http://"+ host + "/CHANGELOG.txt")
 
