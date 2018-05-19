@@ -16,7 +16,7 @@ class bcolors:
 def get_version(url):
 
 	
-	p_full = ["159.65.238.188:3128","206.189.184.151:80"]
+	p_full = ["206.189.184.151:80"]
 	http_proxy = random.choice(p_full)
 
 
@@ -27,9 +27,11 @@ def get_version(url):
 	response = requests.get(hostsearch,timeout=10,headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13'},proxies=proxyDict)
 
 	contents = response.text
-	splitted = contents.split()
-	print "[+]"+ url +" Version : " + splitted[1]
-
+	if "Drupal" in contents:	
+		splitted = contents.split()
+		print "[+]"+ url +" Version : " + splitted[1]
+	else:
+		print "[-] It is not Drupal"
 ########################### GET VERSION FUNCTION
 target = raw_input(bcolors.OKGREEN + "Target :" + bcolors.ENDC)
 yn = raw_input(bcolors.WARNING + "Do you want use proxy ?"+ bcolors.BOLD +"[Y/N] :" + bcolors.ENDC)
