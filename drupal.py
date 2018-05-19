@@ -43,6 +43,7 @@ for line in content:
         result.append(line.split(',')[0])
 
 for host in result:
+	print ("http://"+ host + "/CHANGELOG.txt")
 	print version.get_version("http://"+ host + "/CHANGELOG.txt")
 
 
