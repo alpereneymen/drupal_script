@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-import version
-import sys,argparse,os
-import requests
-from random import randint
+
+import sys,argparse,os,requests,re
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -13,6 +12,22 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+############################### GET VERSION FUNCTION
+def get_version(url):
+	p_full = "138.201.223.250:31288"
+	http_proxy = p_full
+
+
+	proxyDict = {"http":http_proxy}
+
+	hostsearch = url
+	response = requests.get(hostsearch, headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13'},proxies=proxyDict)
+
+	contents = response.text
+	splitted = contents.split()
+	print "[+]"+ url +" Version : " + splitted[1]
+
+########################### GET VERSION FUNCTION
 target = raw_input(bcolors.OKGREEN + "Target :" + bcolors.ENDC)
 yn = raw_input(bcolors.WARNING + "Do you want use proxy ?"+ bcolors.BOLD +"[Y/N] :" + bcolors.ENDC)
 if yn == "Y":
@@ -44,6 +59,5 @@ for line in content:
 
 for host in result:
 	print ("http://"+ host + "/CHANGELOG.txt")
-	print version.get_version("http://"+ host + "/CHANGELOG.txt")
-
+	print get_version("http://"+ host + "/CHANGELOG.txt")
 
