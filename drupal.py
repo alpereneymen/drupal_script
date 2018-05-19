@@ -16,17 +16,16 @@ class bcolors:
 def get_version(url):
 
 	
-	p_full = ["206.189.184.151:80"]
-	http_proxy = random.choice(p_full)
 
-
-	proxyDict = {"http":http_proxy}
 
 	hostsearch = url
 
-	response = requests.get(hostsearch,timeout=10,headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13'},proxies=proxyDict)
+  	response = requests.get(hostsearch,timeout=5,headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13'})
+
+	
 
 	contents = response.text
+
 	if "Drupal" in contents:	
 		splitted = contents.split()
 		print "[+]"+ url +" Version : " + splitted[1]
@@ -40,7 +39,7 @@ if yn == "Y":
 	p_port = raw_input(bcolors.OKGREEN + "PORT :" + bcolors.ENDC)
 	p_full = p_ip + ":" + p_port
 else:
-	p_full = "138.201.223.250:31288"
+	p_full = "181.196.145.106:65103"
 
 http_proxy = p_full
 
