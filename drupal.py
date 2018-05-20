@@ -19,18 +19,20 @@ def get_version(url):
 
 
 	hostsearch = url
+	try:
+	  	response = requests.get(hostsearch,timeout=5,headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13'})
 
-  	response = requests.get(hostsearch,timeout=5,headers={'User-Agent' : 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13'})
+		
 
-	
-
-	contents = response.text
-
-	if "Drupal" in contents:	
-		splitted = contents.split()
-		print "[+]"+ url +" Version : " + splitted[1]
-	else:
-		print "[-] It is not Drupal"
+		contents = response.text
+		
+		if "Drupal" in contents:	
+			splitted = contents.split()
+			print "[+]"+ url +" Version : " + splitted[1]
+		else:
+			print "[-] It is not Drupal"
+	except requests.ConnectionError:
+		print "[-] Connection Failed !"
 ########################### GET VERSION FUNCTION
 target = raw_input(bcolors.OKGREEN + "Target :" + bcolors.ENDC)
 yn = raw_input(bcolors.WARNING + "Do you want use proxy ?"+ bcolors.BOLD +"[Y/N] :" + bcolors.ENDC)
@@ -65,4 +67,3 @@ for host in result:
 	print ("http://"+ host + "/CHANGELOG.txt")
 
 	get_version("http://"+ host + "/CHANGELOG.txt")
-
